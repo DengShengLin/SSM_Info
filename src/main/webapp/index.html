@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<h1>Ajax请求数据POST</h1>
+		<form id="postForm">
+			<input type="text" name="username" id="name">
+			<input type="password" name="password" id="password" value="" />
+			<input type="button" id="btn" value="提交">
+		</form>
+
+		<script type="text/javascript">
+			$("#btn").click(function() {
+				var username = $("#name").val();
+				var password = $("#password").val();
+				console.log(username + password + "这是html页面打印数据");
+				$.ajax({
+					type: "post",
+					url: "http://localhost:8080/user/findAll",
+					async: true,
+					data: {
+						"username": username,
+						"password": password
+					},
+					success: function(data) {
+						console.log(data);
+						console.log("打印后台返回数据");
+
+					}
+				});
+
+			})
+		</script>
+
+	</body>
+
+</html>
