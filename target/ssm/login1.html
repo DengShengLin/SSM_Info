@@ -1,0 +1,174 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- bootstrap的样式文件，引入外部的CSS样式文件，这是第2种CSS应用的方式 -->
+<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap 应用的脚本支持文件 -->
+<script src="bootstrap/jquery.min.js"></script>
+<script src="bootstrap/jquery-1.11.0.min.js"></script>
+<script src="bootstrap/bootstrap.min.js"></script>
+
+
+<title>信盈达——LOL角色管理系统</title>
+
+<!-- 使用这个标签来定义页面的CSS样式 -->
+<style type="text/css">
+/* 全局的页面设置	CSS应用的第1种方式 */
+body {
+	/* 使用CSS来设置背景图片 */
+	background-image: url(img/Login.jpg); /* 显示的背景图 */
+	background-repeat: no-repeat; /* 不平铺 */
+	background-size: 100%; /* 占满整个页面 */
+	
+	/* 把字体的颜色就成白色 */
+	color: white;
+}
+</style>
+
+</head>
+<body>
+	<!-- div标签在页面布局的时候使用
+		使用class标签属性去应用指定的样式
+		占满整个页面
+	 -->
+	<div class="container">
+		<form >
+			<!-- 这就是一行 快速复制行：选中代码，Ctrl + Alt + ↓
+				style：在标签上去定义CSS样式，样式只能当前的标签有效果
+				row：表示一行
+				col-md-4：表示占用4格
+				font-size：字体的大小，单位是px像素
+				align:对齐方式：有左、右、center居中三种对齐
+				col-md-offset-数字 ：平移，想移动几个格子
+				
+				margin-top：设置标签元素与页面的项部的距离是多少像素
+			-->
+			<div class="row" style="margin-top: 120px"> 
+				<div class="col-md-4 col-md-offset-4" style="font-size: 60px" align="center">
+					<!-- 快速移动行：选中要移动的行，Alt + 上下箭头 -->
+					用户登陆
+				</div>
+			</div>
+			<!-- 第2行 -->
+			<div class="row"> 
+				<div class="form-group col-md-4 col-md-offset-4">
+				<label for="username">请输入用户名：</label> 
+					<input type="text" class="form-control" id="username" name="username" value="123" placeholder="请输入您的用户名！！">
+				</div>
+			</div>
+			<!-- 第3行 -->
+			<div class="row"> 
+				<div class="form-group col-md-4 col-md-offset-4">
+					<label for="password">请输入用户密码：</label> 
+					<input type="password" class="form-control" name="password" id="password" placeholder="请输入您的用户密码！！">
+				</div>
+			</div>
+			<!-- 第4行 错误信息的提示-->
+			<div class="row"> 
+				<div class="col-md-4 col-md-offset-4" style="font-size: 25px" align="center">
+					<!-- font：字体标签 -->
+					
+				</div>
+			</div>
+			<!-- 第5行 按钮-->
+			<div class="row"> 
+				<div class="col-md-4 col-md-offset-4" align="center">
+					<button type="submit" class="btn btn-info" id = "login">登 陆</button>
+					<!-- 页面中使用空格，只会有一个有效果，也就是说，给多少个也是一个空格 
+						要使用特殊的符号来表示空格--》&nbsp;
+						1个就是1个空格
+					-->
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="register.jsp" class="btn btn-info">注 册</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+	$("#login").click(function(){
+		var username = $("#inputname").val();
+		var password = $("#inputPassword3").val();
+		
+	//	if(username == 'admin' && password ==123){
+			
+	//		alert(11)
+	//	}
+		$.ajax({
+	        type:"post",
+	        url:"http://localhost:8080/user/login",
+	        dataType:"json",
+	        data:{"username":username,"password":password},
+	        success:function (data) {
+	            /*在这里进行对json数据判断*/
+	            /*code 默认值为200  message 默认值为success*/
+	            var code=parseInt(data.code);
+  		  console.log(data);
+	            switch (code) {
+	                case 200:
+	                    var message=data.message;
+	                    switch (message) {
+	                        case "error":
+	                            alert("请求数据发生error！");
+	                            break;
+	                        case "fail":
+	                            alert("请求数据发生fail！");
+	                            break;
+	                        default:
+	                            /*进行获取数据的操作*/
+	                            console.log(data.data);
+	                            addTbody(data.data);
+	                    }
+	                    break;
+	                case 201:
+	                    alert("新建或修改数据成功");
+	                    break;
+	                case 202:
+	                    alert("表示一个请求已经进入后台排队（异步任务）");
+	                    break;
+	                case 204:
+	                    alert("删除数据成功！");
+	                    break;
+	                case 400:
+	                    alert("请求有错误，服务器没有进行新建或修改数据的操作");
+	                    break;
+	                case 403:
+	                    alert("得到授权（与401错误相对），但是访问是被禁止的");
+	                    break;
+	                case 404:
+	                    alert("请求记录不存在，服务器没有进行操作");
+	                    break;
+	                case 406:
+	                    alert("请求的格式不正确");
+	                    break;
+	                case 500:
+	                    alert("服务器发生错误，无法判断发出的请求是否成功！");
+	                    break;
+	                default:
+	                    alert("获取请求数据失败！")
+	            }
+	        },
+	        error:function () {
+		alert("第一次获取json数据失败！");
+	        }
+	 });
+	
+	
+	
+
+	})
+	
+	
+	
+	
+	
+	
+	</script>
+</body>
+</html>

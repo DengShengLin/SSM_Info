@@ -23,9 +23,10 @@
             <%--<input type="submit" value="登录"/>--%>
         <%--</form>--%>
 
-        <h1>Ajax请求数据POST</h1>
-
-        <form id="postForm">
+        <%--<h1>Ajax请求数据POST</h1>--%>
+        <h1>宝贝今晚约会吗？</h1><br>
+        好久没抱抱你了
+<%--        <form id="postForm">
             <input type="text" name="username" id="name">
             <input type="password" name="password" id="password" value="" />
             <input type="button" id="btn" value="提交">
@@ -54,7 +55,7 @@
                 });
 
             })
-        </script>
+        </script>--%>
 
 
 </body>

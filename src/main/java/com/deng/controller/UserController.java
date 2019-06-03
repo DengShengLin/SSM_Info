@@ -1,20 +1,15 @@
 package com.deng.controller;
 
 import com.deng.domain.User;
-import com.deng.re.ResponseCode;
 import com.deng.re.ServerResponse;
 import com.deng.service.UserService;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author DengShenglin
@@ -26,8 +21,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-
     /**
      * @Author: Deng
      * @URL： http://localhost:8080/user/passwordChange
@@ -36,6 +29,7 @@ public class UserController {
       * @Param: username,password,newpassword
      * @Return： status{0,1}(1的话返回用户的用户名和密码（新密码）)
      */
+    @CrossOrigin(origins = "*",maxAge = 3600)
     @ResponseBody
     @RequestMapping("/passwordChange")
     public ServerResponse passwordChange(User user,String newpassword){
@@ -55,6 +49,7 @@ public class UserController {
       * @Param: username,password
      * @Return： status{0,1}(若为1则发送用户全部信息)
      */
+    @CrossOrigin(origins = "*",maxAge = 3600)
     @ResponseBody
     @RequestMapping("/register")
     public ServerResponse register(User user){
@@ -73,6 +68,7 @@ public class UserController {
      * @Param: username
      * @Return： status{0,1}
      */
+    @CrossOrigin(origins = "*",maxAge = 3600)
     @ResponseBody
     @RequestMapping("/userNameExist")
 
@@ -80,9 +76,9 @@ public class UserController {
 
         User user = userService.UserNameExist(username);
         if (user == null) {
-            return ServerResponse.createBySuccess();
+            return ServerResponse.createByError();
         }
-        return ServerResponse.createByError();
+        return ServerResponse.createBySuccess();
     }
 
     /**
@@ -93,6 +89,7 @@ public class UserController {
      * @Param: null
      * @Return： list(一个status和全部data)
      */
+    @CrossOrigin(origins = "*",maxAge = 3600)
     @ResponseBody
     @RequestMapping("/findAll")
     public ServerResponse findAll() {
